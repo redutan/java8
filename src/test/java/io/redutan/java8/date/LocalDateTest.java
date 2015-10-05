@@ -116,4 +116,42 @@ public class LocalDateTest {
         ZonedDateTime dateAndTimeInNewyork = ZonedDateTime.of(localDateAndTime, america);
         System.out.println("current date and time in a particular timezone : " + dateAndTimeInNewyork);
     }
+
+    // How to represent fixed date e.g. credit card expiry, YearMonth
+    @Test
+    public void testYearMonth() throws Exception {
+        YearMonth currentYearMonth = YearMonth.now();
+        System.out.printf("Days in month year %s : %d%n", currentYearMonth, currentYearMonth.lengthOfMonth());
+        YearMonth creditCardExpiry = YearMonth.of(2018, Month.FEBRUARY);
+        System.out.printf("Your credit card expires on %s %n", creditCardExpiry);
+    }
+
+    // How to check Leap Year in Java 8
+    @Test
+    public void testLeapYear() throws Exception {
+        if (today.isLeapYear()) {
+            System.out.println("This year is leap year");
+        } else {
+            System.out.println(today.getYear() + " is not a leap year");
+        }
+    }
+
+    // How many days, month between two dates
+    @Test
+    public void testBetweenMonth() throws Exception {
+        LocalDate java8Release = LocalDate.of(2014, Month.FEBRUARY, 14);
+        Period periodToNextJavaRelease = Period.between(java8Release, today);
+        System.out.println("Month left between today and Java 8 release : " +
+                periodToNextJavaRelease.getMonths() + "m, " + periodToNextJavaRelease.getDays() + "d");
+    }
+
+    // Date and Time with timezone offset
+    @Test
+    public void testTimezone() throws Exception {
+        LocalDateTime datetime = LocalDateTime.of(2014, Month.JANUARY, 14, 19 ,30);
+        ZoneOffset offset = ZoneOffset.of("+05:30");
+        OffsetDateTime date = OffsetDateTime.of(datetime, offset);
+        System.out.println("Date and Time with timezone offset in Java : " + date);
+    }
+
 }
