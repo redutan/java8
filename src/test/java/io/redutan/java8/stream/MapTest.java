@@ -2,6 +2,7 @@ package io.redutan.java8.stream;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
@@ -62,7 +63,7 @@ public class MapTest {
     }
 
     @Test
-    public void testMap() throws Exception {
+    public void testFlatMap() throws Exception {
         String[] arrayOfWords = {"Goodbye", "World"};
         Stream<String> streamOfWord = Arrays.stream(arrayOfWords);
 
@@ -79,7 +80,75 @@ public class MapTest {
                 .distinct()
                 .collect(toList());
         printList(result1);
+
+        // Stream<Stream<String>> 스트림이 List로 리턴된다
+        List<Stream<String>> result2 = words.stream()
+                .map(s -> s.split(""))
+                .map(Arrays::stream)
+                .distinct()
+                .collect(toList());
+        printList(result2);
+
+        // Stream<String> 스트림이 정상적으로 List로 리턴된다
+        // flatMap에 의해 각각의 Stream<String> 들이 하나의 Stream으로 합쳐진다
+        // 출력결과로 string의 값이 출력
+        List<String> result3 = words.stream()
+                .map(s -> s.split(""))
+                .flatMap(Arrays::stream)
+                .distinct()
+                .collect(toList());
+        printList(result3);
     }
+
+    /** 두개의 숫자 쌍을 반환한다 */
+    @Test
+    public void testPair_java7() throws Exception {
+        List<Integer> number1 = Arrays.asList(1, 2, 3);
+        List<Integer> number2 = Arrays.asList(3, 4);
+
+        List<int[]> result = new ArrayList<>();
+        for (Integer num1 : number1) {
+            for (Integer num2 : number2) {
+                result.add(new int[] {num1, num2});
+            }
+        }
+        for (int[] is : result) {
+            System.out.println("(" + is[0] + "," + is[1] + ")");
+        }
+    }
+
+    /** 두개의 숫자 쌍을 반환한다 - java8 */
+    @Test
+    public void testPair_java8() throws Exception {
+        List<Integer> number1 = Arrays.asList(1, 2, 3);
+        List<Integer> number2 = Arrays.asList(3, 4);
+
+        List<int[]> result = number1.stream()
+                .flatMap(n1 -> number2.stream()
+                        .map(n2 -> new int[]{n1, n2}))
+                .collect(toList());
+        for (int[] is : result) {
+            System.out.println("(" + is[0] + "," + is[1] + ")");
+        }
+    }
+
+    /** 두개의 숫자 중 합이 3으로 나누어 떨어지는 쌍만 반환 */
+    @Test
+    public void testFilterPair_java8() throws Exception {
+        List<Integer> number1 = Arrays.asList(1, 2, 3);
+        List<Integer> number2 = Arrays.asList(3, 4);
+
+        List<int[]> result = number1.stream()
+                .flatMap(n1 -> number2.stream()
+                        .filter(n2 -> (n1 + n2) % 3 == 0)
+                        .map(n2 -> new int[]{n1, n2}))
+                .collect(toList());
+        for (int[] is : result) {
+            System.out.println("(" + is[0] + "," + is[1] + ")");
+        }
+    }
+
+
 
     private <T> void printList(List<T> list) {
         list.stream().forEach(System.out::println);
