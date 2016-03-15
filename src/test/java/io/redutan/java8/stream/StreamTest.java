@@ -11,7 +11,7 @@ import static java.util.stream.Collectors.toList;
 /**
  * @author myeongju.jung
  */
-public class BasicStreamTest {
+public class StreamTest {
     List<Dish> menu = Arrays.asList(
         new Dish("fork",            false,  800, Dish.Type.MEAT),
         new Dish("beef",            false,  700, Dish.Type.MEAT),
