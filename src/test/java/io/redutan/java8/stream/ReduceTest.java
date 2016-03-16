@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
+ * 리듀싱
  * Created by redutan on 2016. 3. 16..
  */
 public class ReduceTest {

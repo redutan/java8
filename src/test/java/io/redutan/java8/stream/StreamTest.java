@@ -9,6 +9,7 @@ import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 
 /**
+ * 스트림 기본
  * @author myeongju.jung
  */
 public class StreamTest {

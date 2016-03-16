@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 import static java.util.stream.Collectors.toList;
 
 /**
+ * 매핑
  * @author myeongju.jung
  */
 public class MapTest {
