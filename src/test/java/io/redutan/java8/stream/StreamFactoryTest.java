@@ -44,11 +44,41 @@ public class StreamFactoryTest {
 
         // 파일 라인 별로 스트림 생성
         long uniqueWords = 0;
-        try (Stream<String> lines = Files.lines(Paths.get("file.txt"), Charset.defaultCharset())) {
+        try (Stream<String> lines = Files.lines(Paths.get("/Users/redutan/git/java8/src/test/resources/file.txt"),
+                Charset.defaultCharset())) {
             uniqueWords = lines.flatMap(line -> Arrays.stream(line.split(" ")))
                     .distinct()
                     .count();
         }
         System.out.println("단어수 : " + uniqueWords);
+    }
+
+    @Test
+    public void testInfinity() throws Exception {
+        // 0부터 2씩 더해가는 무한스트림 생성(짝수)
+        // 주의 : 무한스트림은 limit와 함께 써야한다.
+        Stream.iterate(0, n -> n + 2)
+                .limit(5)
+                .forEach(System.out::println);
+        System.out.println();
+
+        // 1부터 2씩 더해가는 무한스트림 생성(홀수)
+        // 주의 : 무한스트림은 limit와 함께 써야한다.
+        Stream.iterate(1, n -> n + 2)
+                .limit(5)
+                .forEach(System.out::println);
+        System.out.println();
+
+        // 피보나치 수열
+        Stream.iterate(new int[] {0, 1}, arr -> new int[] {arr[1], arr[0] + arr[1]})
+                .limit(5)
+                .forEach(arr -> System.out.print("(" + arr[0] + ", " + arr[1] + ")"));
+        System.out.println();
+
+        // 피보나치 수
+        Stream.iterate(new int[] {0, 1}, arr -> new int[] {arr[1], arr[0] + arr[1]})
+                .limit(10)
+                .map(arr -> arr[0])
+                .forEach(System.out::println);
     }
 }
